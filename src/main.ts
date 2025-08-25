@@ -2,17 +2,17 @@ import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
-import { initializeTransactionalContext } from 'typeorm-transactional';
 import { AppModule } from './app.module';
 import { AllyExceptionInterceptor } from './infrastructure/interceptors/exception.interceptor';
 import { ResponseInterceptor } from './infrastructure/interceptors/response.interceptor';
 import { CONFIG_DEFAULT } from './config/config.default';
+import { TypeormTransactionalAdapter } from './infrastructure/adapters/transactional.adapter';
 
 async function bootstrap() {
-  initializeTransactionalContext();
+  new TypeormTransactionalAdapter().initialize();
 
   const app = await NestFactory.create(AppModule);
-  app.setGlobalPrefix('v1/auth');
+  app.setGlobalPrefix(`auth`);
   const configService = app.get(ConfigService);
 
   // Enable validation and transformation globally
@@ -30,7 +30,7 @@ async function bootstrap() {
       .addBearerAuth()
       .build();
     const document = SwaggerModule.createDocument(app, config);
-    SwaggerModule.setup('api', app, document);
+    SwaggerModule.setup('docs', app, document);
   }
 
   await app.listen(configService.get('app.port') || CONFIG_DEFAULT.app.port);

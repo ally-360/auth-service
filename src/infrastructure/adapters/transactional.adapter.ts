@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
-// import { DataSourceOptions, DataSource } from 'typeorm';
-// import { addTransactionalDataSource } from 'typeorm-transactional';
+import { DataSource } from 'typeorm';
+import {
+  addTransactionalDataSource,
+  initializeTransactionalContext,
+} from 'typeorm-transactional';
 
 export interface TransactionalBase {
   create: (size: number) => string;
@@ -8,7 +11,11 @@ export interface TransactionalBase {
 
 @Injectable()
 export class TypeormTransactionalAdapter {
-  // public create(options: DataSourceOptions) {
-  //   return addTransactionalDataSource(new DataSource(options));
-  // }
+  public initialize() {
+    return initializeTransactionalContext();
+  }
+
+  public create(dataSource: DataSource): DataSource {
+    return addTransactionalDataSource(dataSource);
+  }
 }

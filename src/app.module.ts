@@ -5,8 +5,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from './modules/auth/auth.module';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { configuration } from './config';
-import { addTransactionalDataSource } from 'typeorm-transactional';
 import { DataSource } from 'typeorm';
+import { TypeormTransactionalAdapter } from './infrastructure/adapters/transactional.adapter';
 
 @Module({
   imports: [
@@ -21,7 +21,7 @@ import { DataSource } from 'typeorm';
       inject: [ConfigService],
       async dataSourceFactory(options) {
         if (!options) throw new Error('Invalid options passed');
-        return addTransactionalDataSource(
+        return new TypeormTransactionalAdapter().create(
           await new DataSource(options).initialize(),
         );
       },
