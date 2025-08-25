@@ -13,6 +13,9 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+# OS
+.DS_Store
+
 # dotenv environment variable files
 .env
 .env.development
@@ -22,3 +25,4 @@ lerna-debug.log*
 # temp directory
 .temp
 .tmp
+
