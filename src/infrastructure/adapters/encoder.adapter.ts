@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-// import * as bcrypt from 'bcryptjs';
+import * as bcrypt from 'bcryptjs';
 
 export interface HashService {
   /**
@@ -18,24 +18,14 @@ export interface HashService {
 }
 
 @Injectable()
-export class EncoderAdapter {
-  // implements HashService {
+export class EncoderAdapter implements HashService {
   constructor() {}
 
-  // public async encodePassword(p: string): Promise<string> {
-  //   return await bcrypt.hash(p, await bcrypt.genSalt());
-  // }
-
-  // public async checkPassword(p: string, up: string): Promise<boolean> {
-  //   return await bcrypt.compare(p, up);
-  // }
-
-  public encodePassword(p: string): string {
-    return `hash-${p}`; // await bcrypt.hash(p, await bcrypt.genSalt());
+  public async encodePassword(p: string): Promise<string> {
+    return await bcrypt.hash(p, await bcrypt.genSalt());
   }
 
-  public checkPassword(p: string, up: string): boolean {
-    console.log(p, up);
-    return true; // await bcrypt.compare(p, up);
+  public async checkPassword(p: string, up: string): Promise<boolean> {
+    return await bcrypt.compare(p, up);
   }
 }

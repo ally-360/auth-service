@@ -1,6 +1,8 @@
+import { CreateProfileDto } from './profile.dto';
 import {
   IsString,
   IsNotEmpty,
+  ValidateNested,
   IsOptional,
   IsBoolean,
   IsEmail,
@@ -8,6 +10,7 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
+import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class RegisterUserDto {
@@ -41,4 +44,9 @@ export class RegisterUserDto {
   @IsOptional()
   @IsBoolean()
   firstLogin?: boolean;
+
+  @ApiProperty()
+  @ValidateNested()
+  @Type(() => CreateProfileDto)
+  profile: CreateProfileDto;
 }

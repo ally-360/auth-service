@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-// import * as genstr from '@supercharge/strings';
+import { randomBytes } from 'crypto';
 
 export interface StrBase {
   generate: (size: number) => string;
@@ -13,6 +13,9 @@ export class GenstrAdapter implements StrBase {
    * @returns
    */
   public generate(size: number): string {
-    return `text.random-${size}`; // genstr.Str().random(size);
+    // Generate a URL-safe random string of the requested size
+    // Using base64url and trimming to exact length to reduce bias and keep it compact
+    const bytes = Math.ceil((size * 3) / 4);
+    return randomBytes(bytes).toString('base64url').slice(0, size);
   }
 }
