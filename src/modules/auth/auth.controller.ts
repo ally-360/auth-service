@@ -17,10 +17,12 @@ import {
   ApiBearerAuth,
   ApiBody,
   ApiCreatedResponse,
+  ApiExtraModels,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
   ApiUnauthorizedResponse,
+  getSchemaPath,
 } from '@nestjs/swagger';
 import {
   RegisterUserDto,
@@ -38,8 +40,12 @@ import { ChangePasswordService } from './services/change-password.service';
 import { VerifyUserService } from './services/verify-user.service';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from './decorators/get-user.decorator';
+import { MessageResponseDto } from 'src/common/dtos/message-response.dto';
+import { UserResponseDto } from './dtos/user-response.dto';
+import { LoginResponseDto } from 'src/modules/auth/dtos/login-response.dto';
 
 @ApiTags('Authentication')
+@ApiExtraModels(UserResponseDto, MessageResponseDto, LoginResponseDto)
 @Controller()
 export class AuthController {
   constructor(
@@ -56,7 +62,20 @@ export class AuthController {
   @ApiBody({ type: RegisterUserDto })
   @ApiCreatedResponse({
     description: 'User successfully registered',
-    schema: { example: { message: 'RegisterService.execute' } },
+    schema: {
+      allOf: [
+        {
+          type: 'object',
+          properties: { success: { type: 'boolean', example: true } },
+        },
+        {
+          type: 'object',
+          properties: {
+            data: { $ref: getSchemaPath(UserResponseDto) },
+          },
+        },
+      ],
+    },
   })
   @ApiBadRequestResponse({ description: 'Validation error' })
   register(@Body() data: RegisterUserDto) {
@@ -68,7 +87,20 @@ export class AuthController {
   @ApiBody({ type: LoginDto })
   @ApiOkResponse({
     description: 'Login successful',
-    schema: { example: { accessToken: 'LoginService.execute' } },
+    schema: {
+      allOf: [
+        {
+          type: 'object',
+          properties: { success: { type: 'boolean', example: true } },
+        },
+        {
+          type: 'object',
+          properties: {
+            data: { $ref: getSchemaPath(LoginResponseDto) },
+          },
+        },
+      ],
+    },
   })
   @ApiUnauthorizedResponse({ description: 'Invalid credentials' })
   login(@Body() loginDto: LoginDto) {
@@ -80,7 +112,20 @@ export class AuthController {
   @ApiBody({ type: ReqResetPasswordDto })
   @ApiOkResponse({
     description: 'Reset request accepted',
-    schema: { example: { message: 'ReqResetPasswordService.execute' } },
+    schema: {
+      allOf: [
+        {
+          type: 'object',
+          properties: { success: { type: 'boolean', example: true } },
+        },
+        {
+          type: 'object',
+          properties: {
+            data: { $ref: getSchemaPath(MessageResponseDto) },
+          },
+        },
+      ],
+    },
   })
   reqResetPassword(@Body() data: ReqResetPasswordDto) {
     return this._reqResetPasswordService.execute(data);
@@ -91,7 +136,20 @@ export class AuthController {
   @ApiBody({ type: ResetPasswordDto })
   @ApiOkResponse({
     description: 'Password reset',
-    schema: { example: { message: 'ResetPasswordService.execute' } },
+    schema: {
+      allOf: [
+        {
+          type: 'object',
+          properties: { success: { type: 'boolean', example: true } },
+        },
+        {
+          type: 'object',
+          properties: {
+            data: { $ref: getSchemaPath(MessageResponseDto) },
+          },
+        },
+      ],
+    },
   })
   @UsePipes(new ValidationPipe({ whitelist: true }))
   resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
@@ -104,7 +162,20 @@ export class AuthController {
   @UseGuards(AuthGuard())
   @ApiOkResponse({
     description: 'Password changed',
-    schema: { example: { message: 'ChangePasswordService.execute' } },
+    schema: {
+      allOf: [
+        {
+          type: 'object',
+          properties: { success: { type: 'boolean', example: true } },
+        },
+        {
+          type: 'object',
+          properties: {
+            data: { $ref: getSchemaPath(MessageResponseDto) },
+          },
+        },
+      ],
+    },
   })
   changePassword(
     @GetUser('authId', ParseUUIDPipe) authId: string,
@@ -116,8 +187,21 @@ export class AuthController {
   @Get('/user/:authId/verify')
   @ApiOperation({ summary: 'Verify user via activation link' })
   @ApiOkResponse({
-    description: 'Redirect to app',
-    schema: { example: { redirect: true } },
+    description: 'Verification processed',
+    schema: {
+      allOf: [
+        {
+          type: 'object',
+          properties: { success: { type: 'boolean', example: true } },
+        },
+        {
+          type: 'object',
+          properties: {
+            data: { $ref: getSchemaPath(MessageResponseDto) },
+          },
+        },
+      ],
+    },
   })
   @Redirect('https://ally360.netlify.app/')
   @UsePipes(new ValidationPipe({ whitelist: true }))
