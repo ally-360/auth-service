@@ -1,10 +1,16 @@
 export const config = {
-  db: {
-    extra: {
-      connectionLimit: 10,
-    },
-    ssl: false,
+  database: {
     synchronize: false,
     logging: false,
+    ssl: true,
+  },
+  security: {
+    jwtExpiresIn: '1h',
+  },
+  logging: {
+    level: 'info',
+  },
+  rateLimit: {
+    maxRequests: 100,
   },
 };

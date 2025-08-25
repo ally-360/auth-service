@@ -1,98 +1,173 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🔐 Auth Service - Ally 360
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Servicio de autenticación y autorización para la plataforma Ally 360, construido con NestJS y PostgreSQL.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 📋 Descripción
 
-## Description
+Este servicio maneja la autenticación de usuarios, registro, login, y gestión de perfiles de usuario. Está diseñado para integrarse con el ecosistema de microservicios de Ally 360.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 🚀 Características
 
-## Project setup
+- **Autenticación JWT**: Sistema de tokens seguro con expiración configurable
+- **Registro de usuarios**: Creación de cuentas con validación de datos
+- **Login seguro**: Autenticación con hash de contraseñas
+- **Gestión de perfiles**: Información personal del usuario
+- **Base de datos PostgreSQL**: Con soporte para transacciones
+- **Validación de datos**: Con Joi y class-validator
+- **Documentación API**: Swagger integrado
+- **Rate limiting**: Protección contra abuso de API
+- **Logging estructurado**: Con diferentes niveles de detalle
 
-```bash
-$ npm install
-```
+## 🛠️ Tecnologías
 
-## Compile and run the project
+- **Framework**: NestJS 11
+- **Base de datos**: PostgreSQL con TypeORM
+- **Autenticación**: JWT con Passport
+- **Validación**: Joi + class-validator
+- **Documentación**: Swagger/OpenAPI
+- **Transacciones**: typeorm-transactional
+- **Testing**: Jest
+
+## 📦 Instalación
 
 ```bash
-# development
-$ npm run start
+# Clonar el repositorio
+git clone <repository-url>
+cd auth-service
 
-# watch mode
-$ npm run start:dev
+# Instalar dependencias
+npm install
 
-# production mode
-$ npm run start:prod
+# Configurar variables de entorno
+cp .env.example .env
+# Editar .env con tus valores
 ```
 
-## Run tests
+## ⚙️ Configuración
+
+### Variables de Entorno
+
+Copia el archivo `.env.example` a `.env` y configura las siguientes variables:
+
+#### Aplicación
+- `NODE_ENV`: Entorno de ejecución (local, development, prod)
+- `PORT`: Puerto HTTP del servicio
+- `ENABLE_SWAGGER`: Habilitar documentación Swagger
+
+#### Base de Datos (PostgreSQL)
+- `DB_HOST`: Host de la base de datos
+- `DB_PORT`: Puerto de PostgreSQL (default: 5432)
+- `DB_USERNAME`: Usuario de la base de datos
+- `DB_PASSWORD`: Contraseña de la base de datos
+- `DB_DATABASE`: Nombre de la base de datos
+- `DB_SSL`: Habilitar SSL para conexiones seguras
+
+#### Seguridad JWT
+- `JWT_SECRET`: Clave secreta para firmar tokens JWT
+- `JWT_EXPIRES_IN`: Tiempo de expiración del token
+
+#### CORS
+- `CORS_ORIGIN`: Orígenes permitidos (separados por comas)
+
+#### Logging
+- `LOG_LEVEL`: Nivel de logging (debug, info, warn, error)
+
+#### Rate Limiting
+- `RATE_LIMIT_WINDOW_MS`: Ventana de tiempo en milisegundos
+- `RATE_LIMIT_MAX_REQUESTS`: Máximo de requests por ventana
+
+## 🚀 Ejecución
 
 ```bash
-# unit tests
-$ npm run test
+# Desarrollo
+npm run start:dev
 
-# e2e tests
-$ npm run test:e2e
+# Producción
+npm run build
+npm run start:prod
 
-# test coverage
-$ npm run test:cov
+# Testing
+npm run test
+npm run test:e2e
 ```
 
-## Deployment
+## 📚 API Endpoints
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+### Autenticación
+- `POST /v1/auth/login` - Iniciar sesión
+- `POST /v1/auth/register` - Registrar nuevo usuario
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### Usuarios
+- `GET /v1/auth/user/profile` - Obtener perfil del usuario
+- `PUT /v1/auth/user/profile` - Actualizar perfil del usuario
+
+### Documentación
+- `GET /api` - Documentación Swagger (si está habilitada)
+
+## 🗄️ Base de Datos
+
+### Entidades Principales
+
+- **User**: Información de autenticación del usuario
+- **Profile**: Perfil personal del usuario
+- **BaseEntity**: Campos comunes (timestamps, soft delete)
+
+### Migraciones
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+# Generar migración
+npm run migration:generate
+
+# Ejecutar migraciones
+npm run migration:run
+
+# Revertir migración
+npm run migration:revert
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## 🔒 Seguridad
 
-## Resources
+- Contraseñas hasheadas con bcrypt
+- Tokens JWT con expiración configurable
+- Rate limiting para prevenir abuso
+- Validación de datos en todos los endpoints
+- CORS configurado para orígenes específicos
 
-Check out a few resources that may come in handy when working with NestJS:
+## 🧪 Testing
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```bash
+# Tests unitarios
+npm run test
 
-## Support
+# Tests e2e
+npm run test:e2e
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+# Cobertura de tests
+npm run test:cov
+```
 
-## Stay in touch
+## 📝 Logs
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+El servicio utiliza logging estructurado con diferentes niveles:
+- **debug**: Información detallada para desarrollo
+- **info**: Información general de operaciones
+- **warn**: Advertencias y situaciones no críticas
+- **error**: Errores y excepciones
 
-## License
+## 🚧 TODO
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+- [ ] Integración con KeyCloak para gestión de roles
+- [ ] Implementación de verificación de email
+- [ ] Sistema de recuperación de contraseñas
+- [ ] Gestión de empresas del usuario
+- [ ] Implementación de refresh tokens
+- [ ] Métricas y monitoreo
+- [ ] Tests de integración completos
+
+## 📄 Licencia
+
+Este proyecto es privado y está bajo licencia UNLICENSED.
+
+## 📞 Soporte
+
+Para soporte técnico, contacta al equipo de desarrollo de Ally 360.

@@ -1,19 +1,18 @@
 export const config = {
-  db: {
-    type: 'postgres',
+  database: {
     host: 'localhost',
     port: 5432,
     username: 'juanpablo',
     password: 'juanpablo',
-    database: 'ally-erp',
-    extra: {
-      connectionLimit: 10,
-    },
+    database: 'auth-service',
     synchronize: true,
     logging: true,
   },
-  jwt: {
-    secret: 'local-secret',
-    expire_in: '1h',
+  security: {
+    jwtSecret: 'local-secret',
+    jwtExpiresIn: '1h',
+  },
+  logging: {
+    level: 'debug',
   },
 };

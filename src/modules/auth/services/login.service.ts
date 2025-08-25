@@ -33,7 +33,6 @@ export class LoginService {
       throw new UnauthorizedException(UAE.USER_UNVERIFY);
     }
 
-    // delete userExists.password; //TODO: Revisar si es necesario eliminar la contraseña
     // TODO: Identificar la o las empresas del usuario
     /*
      * [company - company]
@@ -46,7 +45,7 @@ export class LoginService {
         email: userExists.email,
         authId: userExists.authId,
         selectedCompanyId: null, // TODO: Agregar el id de la empresa inicial
-        // TODO: Agregar el rol del usuario
+        role: 'user', // TODO: Agregar el rol del usuario desde la base de datos
       }),
     };
   }

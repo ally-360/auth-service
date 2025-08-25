@@ -1,16 +1,19 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { initializeTransactionalContext } from 'typeorm-transactional';
 import { ValidationPipe } from '@nestjs/common';
+import { initializeTransactionalContext } from 'typeorm-transactional';
+import { AppModule } from './app.module';
 import { AllyExceptionInterceptor } from './infrastructure/interceptors/exception.interceptor';
 import { ResponseInterceptor } from './infrastructure/interceptors/response.interceptor';
+import { CONFIG_DEFAULT } from './config/config.default';
 
 async function bootstrap() {
   initializeTransactionalContext();
 
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('v1/auth');
+  const configService = app.get(ConfigService);
 
   // Enable validation and transformation globally
   app.useGlobalPipes(new ValidationPipe({ forbidNonWhitelisted: true }));
@@ -19,7 +22,7 @@ async function bootstrap() {
     new ResponseInterceptor(),
   );
 
-  if (process.env.ENABLE_SWAGGER === 'true') {
+  if (configService.get('app.enableSwagger')) {
     const config = new DocumentBuilder()
       .setTitle('Auth Service')
       .setDescription('API docs for Auth Service')
@@ -30,6 +33,6 @@ async function bootstrap() {
     SwaggerModule.setup('api', app, document);
   }
 
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(configService.get('app.port') || CONFIG_DEFAULT.app.port);
 }
 void bootstrap();

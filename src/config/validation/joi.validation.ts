@@ -1,78 +1,42 @@
 import * as Joi from 'joi';
-import { truthy, falsy } from 'src/common/constants/app/bools.app';
+import { CONFIG_DEFAULT } from '../config.default';
+
+const LOG_LEVELS = ['debug', 'info', 'warn', 'error'];
+const ENVIRONMENTS = ['local', 'development', 'prod'];
 
 export const JoiValidationSchema = Joi.object({
-  NODE_ENV: Joi.required().valid('local', 'development', 'prod'),
-  PORT: Joi.number().port().default(3000),
+  // Configuración de la aplicación
+  NODE_ENV: Joi.string()
+    .valid(...ENVIRONMENTS)
+    .default(CONFIG_DEFAULT.app.environment),
+  PORT: Joi.number().port().default(CONFIG_DEFAULT.app.port),
+  ENABLE_SWAGGER: Joi.boolean().default(CONFIG_DEFAULT.app.enableSwagger),
 
-  DB_HOST: Joi.required(),
-  DB_PORT: Joi.number().port().default(3306),
-  DB_USERNAME: Joi.required(),
-  DB_PASSWORD: Joi.required(),
-  DB_DATABASE: Joi.required(),
+  // Configuración de base de datos (PostgreSQL)
+  DB_HOST: Joi.string().default(CONFIG_DEFAULT.app.host),
+  DB_PORT: Joi.number().port().default(CONFIG_DEFAULT.database.port),
+  DB_USERNAME: Joi.string().default(CONFIG_DEFAULT.database.username),
+  DB_PASSWORD: Joi.string().default(CONFIG_DEFAULT.database.password),
+  DB_DATABASE: Joi.string().default(CONFIG_DEFAULT.database.database),
+  DB_SSL: Joi.boolean().default(CONFIG_DEFAULT.database.ssl),
 
-  DB_SYNC: Joi.boolean()
-    .truthy(...truthy)
-    .falsy(...falsy)
-    .when('NODE_ENV', {
-      is: 'prod',
-      then: Joi.boolean()
-        .required()
-        .truthy(...truthy)
-        .falsy(...falsy)
-        .default(false),
-    }),
+  // Configuración de seguridad JWT
+  JWT_SECRET: Joi.string().default(CONFIG_DEFAULT.security.jwtSecret),
+  JWT_EXPIRES_IN: Joi.string().default(
+    CONFIG_DEFAULT.security.jwtExpiresIn.toString(),
+  ),
 
-  STORAGE_IS_ENABLED: Joi.boolean()
-    .required()
-    .truthy(...truthy)
-    .falsy(...falsy)
-    .default(false),
+  // Configuración de CORS
+  CORS_ORIGIN: Joi.string().default(CONFIG_DEFAULT.cors.origin),
 
-  STORAGE_API_ENDPOINT: Joi.any().when('STORAGE_IS_ENABLED', {
-    is: true,
-    then: Joi.string().required(),
-  }),
+  // Configuración de logging
+  LOG_LEVEL: Joi.string()
+    .valid(...LOG_LEVELS)
+    .default(CONFIG_DEFAULT.logging.level),
 
-  STORAGE_USE_SSL: Joi.any().when('STORAGE_IS_ENABLED', {
-    is: true,
-    then: Joi.boolean()
-      .required()
-      .truthy(...truthy)
-      .falsy(...falsy),
-  }),
-
-  STORAGE_BUCKET_NAME: Joi.any().when('STORAGE_IS_ENABLED', {
-    is: true,
-    then: Joi.string().required(),
-  }),
-
-  STORAGE_PORT: Joi.any().when('STORAGE_IS_ENABLED', {
-    is: true,
-    then: Joi.number().port().required(),
-  }),
-
-  STORAGE_ACCESS_KEY: Joi.any().when('STORAGE_IS_ENABLED', {
-    is: true,
-    then: Joi.string().required(),
-  }),
-
-  STORAGE_SECRET_KEY: Joi.any().when('STORAGE_IS_ENABLED', {
-    is: true,
-    then: Joi.string().required(),
-  }),
-
-  EMAIL_HOST: Joi.string().hostname().required().pattern(new RegExp('^smtp.')), // Asegurarse de que comience con 'smtp.'
-
-  EMAIL_PORT: Joi.number().port().required().valid(587, 465), // Restringe a puertos comunes para SMTP
-
-  EMAIL_SECURE: Joi.boolean()
-    .required()
-    .truthy(...truthy)
-    .falsy(...falsy),
-
-  EMAIL_USER: Joi.string().required(),
-  EMAIL_PASSWORD: Joi.string().required(),
-
-  EMAIL_FROM: Joi.string(),
+  // Configuración de rate limiting
+  RATE_LIMIT_WINDOW_MS: Joi.number().default(CONFIG_DEFAULT.rateLimit.windowMs),
+  RATE_LIMIT_MAX_REQUESTS: Joi.number().default(
+    CONFIG_DEFAULT.rateLimit.maxRequests,
+  ),
 });

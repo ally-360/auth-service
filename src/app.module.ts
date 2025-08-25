@@ -16,7 +16,7 @@ import { DataSource } from 'typeorm';
     }),
     TypeOrmModule.forRootAsync({
       useFactory: (config: ConfigService) => ({
-        ...config.get<TypeOrmModuleOptions>('db'),
+        ...config.get<TypeOrmModuleOptions>('database'),
       }),
       inject: [ConfigService],
       async dataSourceFactory(options) {
