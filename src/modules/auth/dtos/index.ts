@@ -4,3 +4,22 @@ export { LoginDto } from './login.dto';
 export { RegisterUserDto } from './register-user.dto';
 export { ReqResetPasswordDto } from './req-reset-password.dto';
 export { ResetPasswordDto } from './reset-password.dto';
+
+// Keycloak DTOs
+export {
+  CreateCompanyRealmDto,
+  AddUserToCompanyDto,
+  RegisterInGenericRealmDto,
+  KeycloakLoginDto,
+  VerifyKeycloakUserDto,
+  ChangeKeycloakPasswordDto,
+} from './keycloak.dto';
+
+export {
+  CreateCompanyRealmResponseDto,
+  AddUserToCompanyResponseDto,
+  RegisterInGenericRealmResponseDto,
+  KeycloakLoginResponseDto,
+  KeycloakUserInfoDto,
+  KeycloakOperationResponseDto,
+} from './keycloak-response.dto';

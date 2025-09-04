@@ -2,6 +2,7 @@ import { Inject, Logger } from '@nestjs/common';
 import { PaginationDto } from 'src/common/dtos';
 import { UserRepository } from 'src/modules/user/repositories/user.repository';
 import { UserListResponseDto } from '../dtos/out/user-list-response.dto';
+import { toUserResponseDtoArray } from '../mappers/user.mapper';
 
 export class FindUsersService {
   private _logger = new Logger('FindUsersService');
@@ -19,7 +20,7 @@ export class FindUsersService {
     );
 
     return {
-      users,
+      users: toUserResponseDtoArray(users),
       meta: {
         total,
         page,

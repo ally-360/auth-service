@@ -43,9 +43,17 @@ import { GetUser } from './decorators/get-user.decorator';
 import { MessageResponseDto } from 'src/common/dtos/message-response.dto';
 import { UserResponseDto } from './dtos/user-response.dto';
 import { LoginResponseDto } from 'src/modules/auth/dtos/login-response.dto';
+import { KeycloakAuthService } from './services/keycloak-auth.service';
+import { KeycloakLoginDto } from './dtos/keycloak.dto';
+import { KeycloakLoginResponseDto } from './dtos/keycloak-response.dto';
 
 @ApiTags('Authentication')
-@ApiExtraModels(UserResponseDto, MessageResponseDto, LoginResponseDto)
+@ApiExtraModels(
+  UserResponseDto,
+  MessageResponseDto,
+  LoginResponseDto,
+  KeycloakLoginResponseDto,
+)
 @Controller()
 export class AuthController {
   constructor(
@@ -55,6 +63,7 @@ export class AuthController {
     private readonly _resetPasswordService: ResetPasswordService,
     private readonly _changePasswordService: ChangePasswordService,
     private readonly _verifyUserService: VerifyUserService,
+    private readonly _keycloakAuthService: KeycloakAuthService,
   ) {}
 
   @Post('/register')
@@ -105,6 +114,38 @@ export class AuthController {
   @ApiUnauthorizedResponse({ description: 'Invalid credentials' })
   login(@Body() loginDto: LoginDto) {
     return this._loginService.execute(loginDto);
+  }
+
+  @Post('/keycloak/login')
+  @ApiOperation({
+    summary: 'Login with Keycloak OIDC',
+    description:
+      'Autentica un usuario utilizando Keycloak y retorna tokens JWT',
+  })
+  @ApiBody({ type: KeycloakLoginDto })
+  @ApiOkResponse({
+    description: 'Login successful with Keycloak',
+    schema: {
+      allOf: [
+        {
+          type: 'object',
+          properties: { success: { type: 'boolean', example: true } },
+        },
+        {
+          type: 'object',
+          properties: {
+            data: { $ref: getSchemaPath(KeycloakLoginResponseDto) },
+          },
+        },
+      ],
+    },
+  })
+  @ApiUnauthorizedResponse({
+    description: 'Invalid credentials or realm not found',
+  })
+  @ApiBadRequestResponse({ description: 'Invalid request data' })
+  async keycloakLogin(@Body() keycloakLoginDto: KeycloakLoginDto) {
+    return this._keycloakAuthService.authenticateWithKeycloak(keycloakLoginDto);
   }
 
   @Patch('/req/reset-password')
