@@ -5,11 +5,12 @@ import {
   Logger,
 } from '@nestjs/common';
 import { UserRepository } from 'src/modules/user/repositories/user.repository';
-import { RegisterUserDto } from 'src/modules/auth/dtos/register-user.dto';
+
 import { MakeTransactional } from 'src/infrastructure/decorators/transactional.decorator';
 import { Profile, User } from 'src/modules/auth/entities';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { RegisterDto } from 'src/modules/auth/dtos';
 
 @Injectable()
 export class CreateUserService {
@@ -22,7 +23,7 @@ export class CreateUserService {
   ) {}
 
   @MakeTransactional()
-  async execute(data: RegisterUserDto): Promise<User> {
+  async execute(data: RegisterDto): Promise<User> {
     const { profile, ...userData } = data;
     try {
       await this._userRepo.validateIfUserExist({

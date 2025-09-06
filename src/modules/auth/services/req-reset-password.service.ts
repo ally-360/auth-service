@@ -1,17 +1,17 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { ReqResetPasswordDto } from '../dtos';
+import { RequestPasswordResetDto } from '../dtos';
 import { GenstrAdapter } from 'src/infrastructure/adapters';
 import { UserRepository } from 'src/modules/user/repositories/user.repository';
 
 @Injectable()
-export class ReqResetPasswordService {
+export class RequestPasswordResetService {
   constructor(
     @Inject(UserRepository)
     private readonly _userRepo: UserRepository,
     private readonly _genstrAdapter: GenstrAdapter,
   ) {}
 
-  async execute(data: ReqResetPasswordDto): Promise<{ message: string }> {
+  async execute(data: RequestPasswordResetDto): Promise<{ message: string }> {
     const { email } = data;
 
     const user = await this._userRepo.findOneByFilters({ email });

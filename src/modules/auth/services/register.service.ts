@@ -4,7 +4,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { EncoderAdapter, GenstrAdapter } from 'src/infrastructure/adapters';
-import { RegisterUserDto } from '../dtos';
+import { RegisterDto } from '../dtos';
 import { User } from 'src/modules/auth/entities/user.entity';
 import { CreateUserService } from 'src/modules/user/services/create-user.service';
 
@@ -17,16 +17,15 @@ export class RegisterService {
     private readonly _genstrAdapter: GenstrAdapter,
   ) {}
 
-  async execute(data: RegisterUserDto): Promise<User> {
+  async execute(data: RegisterDto): Promise<User> {
     const { password } = data;
 
     const hash = await this._encoderAdapter.encodePassword(password);
-    const verifyToken = this._genstrAdapter.generate(25);
+    // const verifyToken = this._genstrAdapter.generate(25);
 
     const user = await this._createUserService.execute({
       ...data,
       password: hash,
-      verifyToken,
     });
 
     // TODO: Implementar primer estado de Onboarding
@@ -39,7 +38,7 @@ export class RegisterService {
     }
 
     this._logger.debug(
-      `${user.createdAt} -> Usuario ${user.email} registrado exitosamente`,
+      `${user.createdAt.toISOString()} -> Usuario ${user.email} registrado exitosamente`,
     );
 
     // TODO: Rehabilitar el envio de correos

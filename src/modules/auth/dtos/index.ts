@@ -1,6 +1,11 @@
-export { ActivateUserDto } from './activate-user.dto';
-export { ChangePasswordDto } from './change-password.dto';
-export { LoginDto } from './login.dto';
-export { RegisterUserDto } from './register-user.dto';
-export { ReqResetPasswordDto } from './req-reset-password.dto';
-export { ResetPasswordDto } from './reset-password.dto';
+// Auth DTOs
+export * from './auth';
+
+// User DTOs
+export * from './user';
+
+// Role DTOs
+export * from './role';
+
+// Common DTOs
+export * from './common';

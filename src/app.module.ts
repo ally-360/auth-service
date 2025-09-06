@@ -7,6 +7,8 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { configuration } from './config';
 import { DataSource } from 'typeorm';
 import { TypeormTransactionalAdapter } from './infrastructure/adapters/transactional.adapter';
+import { LoggerModule } from './infrastructure/logger/logger.module';
+import { I18nModule } from './infrastructure/i18n/i18n.module';
 
 @Module({
   imports: [
@@ -14,6 +16,8 @@ import { TypeormTransactionalAdapter } from './infrastructure/adapters/transacti
       isGlobal: true,
       load: [configuration],
     }),
+    LoggerModule,
+    I18nModule,
     TypeOrmModule.forRootAsync({
       useFactory: (config: ConfigService) => ({
         ...config.get<TypeOrmModuleOptions>('database'),

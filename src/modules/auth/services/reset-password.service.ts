@@ -13,12 +13,15 @@ export class ResetPasswordService {
   ) {}
 
   async execute(data: ResetPasswordDto): Promise<{ message: string }> {
-    const { resetPasswordToken, password } = data;
+    const { token, newPassword } = data;
 
-    const user = await this._userRepo.findOneByFilters({ resetPasswordToken });
-    const newPassword = await this._encoderAdapter.encodePassword(password);
+    const user = await this._userRepo.findOneByFilters({
+      resetPasswordToken: token,
+    });
+    const encodedNewPassword =
+      await this._encoderAdapter.encodePassword(newPassword);
 
-    user.password = newPassword;
+    user.password = encodedNewPassword;
 
     //TODO: Revisar por qué no funciona esta línea
     // user.resetPasswordToken = null;

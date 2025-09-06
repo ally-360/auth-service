@@ -21,7 +21,7 @@ import {
   ApiUnauthorizedResponse,
   getSchemaPath,
 } from '@nestjs/swagger';
-import { Auth, GetUser } from 'src/modules/auth/decorators';
+
 import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
 import { User } from 'src/modules/auth/entities/user.entity';
 import { ValidRoles } from 'src/common/constants/app/valid-roles.app';
@@ -31,7 +31,8 @@ import { UserListResponseDto } from './dtos/out/user-list-response.dto';
 import { UpdateUserService } from './services/update-user.service';
 import { FindUsersService } from './services/find-users.service';
 import { FindUserService } from './services/find-user.service';
-import { UserResponseDto } from 'src/modules/auth/dtos/user-response.dto';
+import { UserResponseDto } from '../auth/dtos';
+import { Auth, GetUser } from '../auth/decorators';
 
 @ApiTags('Users')
 @ApiBearerAuth()

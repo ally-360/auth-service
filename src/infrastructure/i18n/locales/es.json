@@ -1,0 +1,74 @@
+{
+  "common": {
+    "auth": {
+      "login": {
+        "success": "Inicio de sesión exitoso",
+        "failed": "Credenciales inválidas",
+        "requires_verification": "Se requiere verificación de email"
+      },
+      "register": {
+        "success": "Usuario registrado exitosamente",
+        "email_exists": "El email ya está registrado",
+        "invalid_data": "Datos de registro inválidos"
+      },
+      "verification": {
+        "email_sent": "Se ha enviado un email de verificación",
+        "email_verified": "Email verificado exitosamente",
+        "invalid_code": "Código de verificación inválido",
+        "expired_code": "Código de verificación expirado"
+      },
+      "password": {
+        "changed": "Contraseña cambiada exitosamente",
+        "reset_sent": "Se ha enviado un email para restablecer la contraseña",
+        "reset_success": "Contraseña restablecida exitosamente",
+        "invalid_current": "Contraseña actual incorrecta",
+        "weak": "La contraseña es muy débil"
+      },
+      "2fa": {
+        "enabled": "Autenticación de dos factores habilitada",
+        "disabled": "Autenticación de dos factores deshabilitada",
+        "required": "Se requiere verificación de dos factores",
+        "invalid_code": "Código de autenticación inválido"
+      }
+    },
+    "validation": {
+      "required": "Este campo es requerido",
+      "email_invalid": "Formato de email inválido",
+      "password_weak": "La contraseña debe tener al menos 8 caracteres, incluyendo mayúsculas, minúsculas, números y caracteres especiales",
+      "uuid_invalid": "ID de usuario inválido"
+    },
+    "errors": {
+      "internal_server": "Error interno del servidor",
+      "unauthorized": "No autorizado",
+      "forbidden": "Acceso denegado",
+      "not_found": "Recurso no encontrado",
+      "conflict": "Conflicto de datos"
+    },
+    "email": {
+      "verification": {
+        "subject": "Verifica tu cuenta - Ally 360",
+        "message": "Tu código de verificación es: {code}. Este código expira en 5 minutos."
+      },
+      "password_reset": {
+        "subject": "Restablece tu contraseña - Ally 360",
+        "message": "Haz clic en el siguiente enlace para restablecer tu contraseña: {resetUrl}. Este enlace expira en {expirationTime}."
+      },
+      "2fa_enabled": {
+        "subject": "Autenticación de dos factores habilitada - Ally 360",
+        "message": "Se ha habilitado la autenticación de dos factores en tu cuenta. Si no fuiste tú, contacta a soporte inmediatamente."
+      },
+      "2fa_disabled": {
+        "subject": "Autenticación de dos factores deshabilitada - Ally 360",
+        "message": "Se ha deshabilitado la autenticación de dos factores en tu cuenta. Si no fuiste tú, contacta a soporte inmediatamente."
+      },
+      "welcome": {
+        "subject": "¡Bienvenido a Ally 360!",
+        "message": "Hola {name}, ¡bienvenido a Ally 360! Tu cuenta ha sido creada exitosamente."
+      },
+      "password_changed": {
+        "subject": "Contraseña actualizada - Ally 360",
+        "message": "Tu contraseña ha sido actualizada exitosamente. Si no fuiste tú, contacta a soporte inmediatamente."
+      }
+    }
+  }
+}

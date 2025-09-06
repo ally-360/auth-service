@@ -1,5 +1,4 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { ActivateUserDto } from '../dtos';
 import { UserRepository } from 'src/modules/user/repositories/user.repository';
 
 // TODO: Implement logic to Email Verify

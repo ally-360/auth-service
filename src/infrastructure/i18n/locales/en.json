@@ -1,0 +1,74 @@
+{
+  "common": {
+    "auth": {
+      "login": {
+        "success": "Login successful",
+        "failed": "Invalid credentials",
+        "requires_verification": "Email verification required"
+      },
+      "register": {
+        "success": "User registered successfully",
+        "email_exists": "Email already registered",
+        "invalid_data": "Invalid registration data"
+      },
+      "verification": {
+        "email_sent": "Verification email has been sent",
+        "email_verified": "Email verified successfully",
+        "invalid_code": "Invalid verification code",
+        "expired_code": "Verification code expired"
+      },
+      "password": {
+        "changed": "Password changed successfully",
+        "reset_sent": "Password reset email has been sent",
+        "reset_success": "Password reset successfully",
+        "invalid_current": "Current password is incorrect",
+        "weak": "Password is too weak"
+      },
+      "2fa": {
+        "enabled": "Two-factor authentication enabled",
+        "disabled": "Two-factor authentication disabled",
+        "required": "Two-factor authentication required",
+        "invalid_code": "Invalid authentication code"
+      }
+    },
+    "validation": {
+      "required": "This field is required",
+      "email_invalid": "Invalid email format",
+      "password_weak": "Password must be at least 8 characters long, including uppercase, lowercase, numbers and special characters",
+      "uuid_invalid": "Invalid user ID"
+    },
+    "errors": {
+      "internal_server": "Internal server error",
+      "unauthorized": "Unauthorized",
+      "forbidden": "Access denied",
+      "not_found": "Resource not found",
+      "conflict": "Data conflict"
+    },
+    "email": {
+      "verification": {
+        "subject": "Verify your account - Ally 360",
+        "message": "Your verification code is: {code}. This code expires in 5 minutes."
+      },
+      "password_reset": {
+        "subject": "Reset your password - Ally 360",
+        "message": "Click the following link to reset your password: {resetUrl}. This link expires in {expirationTime}."
+      },
+      "2fa_enabled": {
+        "subject": "Two-factor authentication enabled - Ally 360",
+        "message": "Two-factor authentication has been enabled on your account. If this wasn't you, contact support immediately."
+      },
+      "2fa_disabled": {
+        "subject": "Two-factor authentication disabled - Ally 360",
+        "message": "Two-factor authentication has been disabled on your account. If this wasn't you, contact support immediately."
+      },
+      "welcome": {
+        "subject": "Welcome to Ally 360!",
+        "message": "Hello {name}, welcome to Ally 360! Your account has been created successfully."
+      },
+      "password_changed": {
+        "subject": "Password updated - Ally 360",
+        "message": "Your password has been updated successfully. If this wasn't you, contact support immediately."
+      }
+    }
+  }
+}
